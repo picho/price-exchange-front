@@ -1,4 +1,4 @@
-.App {
+.app {
   background-color: #282c34;
   min-height: 100vh;
 }
@@ -7,7 +7,7 @@
   margin: 0;
 }
 
-.App-header {
+.appHeader {
   background-color: #ae671b;
   max-height: 10vh;
   display: flex;
@@ -17,18 +17,19 @@
   padding: 0px 10px;
 }
 
-.App-logo {
+.appLogo {
   height: 50px;
 }
 
-.Body {
+.body {
   height: 100%;
+  color: white;
 }
 
-.Welcome-message {
+.welcomeMessage {
+  width: 100%;
   display: flex;
   justify-content: center;
-  color: white;
 }
 
 .footer {

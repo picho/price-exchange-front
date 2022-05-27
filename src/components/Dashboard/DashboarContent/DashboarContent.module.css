@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+}
+
+.half{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.leftHalf {
+    background-color: #ff9e2c;
+    flex: 1;
+    padding: 1rem;
+}
+
+.rightHalf {
+    background-color: #b6701e;
+    flex: 1;
+    padding: 1rem;
+}
+

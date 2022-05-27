@@ -23,8 +23,8 @@ const ModalOverlay = (props) => {
                 <input type="password" placeholder="Password" />
             </div>
             <footer className={style.actions}>
-                <Button onClick={props.onCloseModal}>Okay</Button>
                 <Button onClick={props.onCloseModal}>Submit</Button>
+                <Button onClick={props.onCloseModal}>Cancel</Button>
             </footer>
         </Card>
     );
