@@ -3,7 +3,7 @@ import { BaseService } from "./BaseService"
 export class ArcelorMittalContextService extends BaseService {
     
     constructor() {
-        super('Filter/GetAll');
+        super('user/login');
     }
 
     async logUser(params) {

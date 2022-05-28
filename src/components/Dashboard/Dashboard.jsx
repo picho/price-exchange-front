@@ -16,7 +16,8 @@ import style from'./Dashboard.module.css';
 
 function Dashboard() {
 
-    const [isUserLogged, setIsUserLogged] = useState(false);
+    const { userLogged, userLogin } = useArcelorMittal();
+    
     const [isLoginModalClose, setIsLoginModalClose] = useState(true);
     const [prices, setprices] = useState(null);
 
@@ -33,8 +34,6 @@ function Dashboard() {
        
     }, []);
 
-    //const { user } = useArcelorMittal();
-
     const openModal = () => {
         setIsLoginModalClose(false);
     }
@@ -47,25 +46,34 @@ function Dashboard() {
 
       return  (
         <div>
-          {
-            (!isUserLogged) 
-            ? <div className={style.welcomeMessage}><WelcomeMessage /></div>
-            : null
-          }
+          <div className={style.welcomeMessage}>
+            <WelcomeMessage isUserLogged={userLogged} />
+            </div>
           <div>
             <DashboardContent prices={prices} />
           </div>
         </div>
       );
-     
-    }
-
+    }   
     
-
-    const submitUser = () => {
-
+    const buildLoginLogoutButton = () => {
+      
+      if (userLogged === null) 
+        return  <Button onClick={openModal}>Login</Button>
+      
+      return (
+        <div className={style.logout}>
+          <p>{userLogged.username}</p>
+          <Button onClick={openModal}>Logout</Button>
+        </div>
+      );
+      
     }
 
+    const userLoginHandler = async (user) => {
+      await userLogin(user);
+      closeModal();
+    }
 
     return (
       <div className={style.app}>
@@ -74,13 +82,13 @@ function Dashboard() {
               <img src={logo} className={style.appLogo} alt="logo"/>
               <p className={style.title}>ArcelorMitall</p>
             </div>
-            <Button onClick={openModal}>Login</Button>
+            {buildLoginLogoutButton()}
         </header>
         <div className={style.body}>
           {buildAppBody()}
         </div>
         <footer className={style.footer}>Ernesto Petit - AcerlorMitall 2022.</footer>
-        {!isLoginModalClose && <LoginModal title="Login" onCloseModal={closeModal}/>}
+        {!isLoginModalClose && <LoginModal title="Login" onCloseModal={closeModal} onUserLogin={userLoginHandler}/>}
       </div>
     );
 }
