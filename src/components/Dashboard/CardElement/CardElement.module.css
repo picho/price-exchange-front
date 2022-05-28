@@ -1,3 +1,7 @@
+.card {
+    cursor: pointer;
+}
+
 .spanMargin {
     margin: 5px;
 }

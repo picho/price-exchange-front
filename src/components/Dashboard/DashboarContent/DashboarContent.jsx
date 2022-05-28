@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
-import Price from "../Price/Price";
+import CardElement from "../CardElement/CardElement";
 
 import style from './DashboarContent.module.css';
 
-import {ExchangeRateService} from '../../../HttpServices/ExchangeRateService';
+import {CurrencyService} from '../../../HttpServices/CurrencyService';
 import {useArcelorMittal} from "../../../Context/ArcelorMittalContext";
 
 function DashboardContent (props) {
@@ -16,36 +16,52 @@ function DashboardContent (props) {
       
         const fetchData = async () => {
          
-            const currencies = await new ExchangeRateService().getCurrency();
+            const currencies = await new CurrencyService().getCurrency("");
   
             setCurrencies(currencies);
         }
       
-        if(props.userLogged)
+        if(userLogged)
             fetchData();
 
       }, [userLogged]);
 
     const buildPricesContent = () => {
 
-        if(props.prices === null)
-          return null;
-  
-        return props.prices.map((price, index) => {
-            return <Price key={index} name={price.name} value={price.value} />;
-        })
+        let element = <p>Please, log in for seeing the price</p>;
+        let subTitle = null;
+
+        if (userLogged !== null && currencies !== null && props.prices !== null) {
+
+            subTitle =  <p className={style.priceParagraph}>Prices' unit EUR</p>;
+            element = props.prices.map((price, index) => {
+                return <CardElement onSelectElement={props.onSelectedPrice} key={index} name={price.name} value={price.value} />;
+            });
+        }
+
+        return (
+            <div>
+                <h1 className={style.priceTitle}>Prices</h1>
+                {subTitle}
+                {element}
+            </div>
+        )
     }
 
     const buildExchangeRateContent = () => {
 
         let element = <p>Please, log in for seeing the currency and apply the rate</p>;
 
-        if (userLogged !== null && currencies !== null)
-            element = currencies.map((currency, index) =>  <div key={index}>{currency.name}</div> );
+        if (userLogged !== null && currencies !== null) {
+            
+            element = currencies.map((currency, index) =>  {
+                return <CardElement onSelectElement={props.onSelectedRate} key={index} name="" value={currency.name} />
+            });
+        }
 
         return(
             <div>
-                <h2>Exchange Rate</h2>
+                <h1>Exchange Rate</h1>
                 {element}
             </div>
         );
@@ -54,9 +70,7 @@ function DashboardContent (props) {
     return (
         <section className={style.container}>
             <div className={`${style.leftHalf} ${style.half}`}>
-                <div>
-                    {buildPricesContent()}
-                </div>
+                {buildPricesContent()}
             </div>
             <div className={`${style.rightHalf} ${style.half}`}>
                 {buildExchangeRateContent()}

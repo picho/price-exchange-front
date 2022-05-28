@@ -23,9 +23,9 @@ export class HttpService {
 
             return data;
 
-        } catch (error) {
-            console.log(error)
-            return null
+        } 
+        catch (error) {
+            return null;
         }
     }
 
@@ -37,8 +37,8 @@ export class HttpService {
 
             return response;
 
-        } catch (error) {
-            console.log(error);
+        } 
+        catch (error) {
             return null;
         }
 
@@ -47,15 +47,13 @@ export class HttpService {
     async put(params) {
 
         try {
-
-            console.log(ROOT_URL + this.url_prefix);
             
             const response = await axios.put(this.buildUrl(false, null), params, this.headers);
             
             return response;
 
-        } catch (error) {
-            console.log(error);
+        } 
+        catch (error) {
             return null;
         }
     }
@@ -69,8 +67,7 @@ export class HttpService {
             return response;
 
         } catch (error) {
-            console.log(error)
-            return null
+            return null;
         }
     }
 
@@ -93,9 +90,9 @@ export class HttpService {
 
     getSession() {
         let session = localStorage.getItem(SESSION_KEY)
-        if (session) {
+        if (session) 
             return JSON.parse(session)
-        }
+        
         return session
     }
 
@@ -103,17 +100,10 @@ export class HttpService {
         return localStorage.getItem(SESSION_KEY) !== null
     }
 
-    mapQueryParams(queryParams) {
-        
-        return (queryParams)
-            ? "?" + Object.keys(queryParams).map(function (key) { return key + '=' + queryParams[key] }).join('&')
-            : "";
-    }
-
     buildUrl(doesHaveUrlParams, queryParams) {
 
         return (doesHaveUrlParams) 
-            ? ROOT_URL + this.port + "/" + this.url_prefix + this.mapQueryParams(queryParams)
+            ? ROOT_URL + this.port + "/" + this.url_prefix + "/" + queryParams
             : ROOT_URL + this.port + "/" + this.url_prefix;
 
     }

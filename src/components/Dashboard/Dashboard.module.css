@@ -8,13 +8,17 @@
 }
 
 .appHeader {
-  background-color: #ae671b;
+  background-color: #ff9e2c;
   max-height: 10vh;
   display: flex;
   font-size: calc(10px + 2vmin);
   color: white;
   justify-content: space-between;
   padding: 0px 10px;
+}
+
+.username {
+  margin-right: 10px;
 }
 
 .appLogo {
@@ -46,7 +50,7 @@
   bottom: 0;
   width: 100%;
   height: 5vh;
-  background-color: #ae671b;
+  background-color: #ff9e2c;
   color: white;
   text-align: right;
   display: flex;

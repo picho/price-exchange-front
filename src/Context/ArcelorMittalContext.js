@@ -13,14 +13,17 @@ export const ArcelorMittalProvider = (props) => {
 
         if(data) 
             setUser(data);
-        else 
-            console.log("User log error");
+    }
+
+    const userLogout = () => {
+        setUser(null);
     }
  
     const value = useMemo(() => {
         return ({
             userLogged,
-            userLogin
+            userLogin,
+            userLogout
         });
     }, [userLogged]);
 
