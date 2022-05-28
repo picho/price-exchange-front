@@ -6,6 +6,7 @@ import WelcomeMessage from './WelcomeMessage/WelcomeMessage';
 import DashboardContent from './DashboarContent/DashboarContent';
 import Button from '../UI/Button';
 import LoginModal from '../UI/LoginModal';
+import Operation from './Operation/Operation';
 
 import {useArcelorMittal} from "../../Context/ArcelorMittalContext";
 
@@ -16,10 +17,12 @@ import style from'./Dashboard.module.css';
 
 function Dashboard() {
 
-    const { userLogged, userLogin } = useArcelorMittal();
+    const { userLogged, userLogin , userLogout} = useArcelorMittal();
     
     const [isLoginModalClose, setIsLoginModalClose] = useState(true);
     const [prices, setprices] = useState(null);
+    const [selectedPrice, setSelectedPrice] = useState(null);
+    const [selectedRate, setSelectedRate] = useState(null);
 
     useEffect(() => {
       
@@ -50,11 +53,19 @@ function Dashboard() {
             <WelcomeMessage isUserLogged={userLogged} />
             </div>
           <div>
-            <DashboardContent prices={prices} />
+            <DashboardContent prices={prices} onSelectedPrice={onSelectedPrice} onSelectedRate={onSelectedRate}/>
           </div>
         </div>
       );
     }   
+
+    const onSelectedPrice = (price) => {
+      setSelectedPrice(price);
+    }
+
+    const onSelectedRate = (rate) => {
+      setSelectedRate(rate);
+    }
     
     const buildLoginLogoutButton = () => {
       
@@ -63,11 +74,10 @@ function Dashboard() {
       
       return (
         <div className={style.logout}>
-          <p>{userLogged.username}</p>
-          <Button onClick={openModal}>Logout</Button>
+          <p className={style.username}>{userLogged.username}</p>
+          <Button onClick={() => userLogout()}>Logout</Button>
         </div>
       );
-      
     }
 
     const userLoginHandler = async (user) => {
@@ -86,6 +96,7 @@ function Dashboard() {
         </header>
         <div className={style.body}>
           {buildAppBody()}
+          {(userLogged) ? <Operation selectedPrice={selectedPrice} selectedRate={selectedRate} /> : null} 
         </div>
         <footer className={style.footer}>Ernesto Petit - AcerlorMitall 2022.</footer>
         {!isLoginModalClose && <LoginModal title="Login" onCloseModal={closeModal} onUserLogin={userLoginHandler}/>}
