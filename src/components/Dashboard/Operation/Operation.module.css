@@ -9,6 +9,10 @@
     text-align: center;
 }
 
+.operationContent button {
+    margin: 0px 10px;
+}
+
 
 .operationValues {
     display: flex;

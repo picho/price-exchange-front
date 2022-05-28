@@ -11,20 +11,16 @@ function CardElement(props) {
     const buildCardName = () => {
 
         return (props.name)
-        ? (
-            <React.Fragment>
-                <span className={style.spanMargin}>Name</span>
-                <span className={style.spanMargin}>{props.name}</span>
-            </React.Fragment>
-        )
+        ? (<><span className={style.spanMargin}>{props.name}</span></>)
         : null;
     }
+
+    const value = (props.valueUnit !== undefined)  ? props.value + props.valueUnit : props.value;
 
     return(
         <div className={style.card} onClick={() => selectElement()}>
             {buildCardName()}
-            <span className={style.spanMargin}>Value</span>
-            <span className={style.spanMargin}>{props.value}</span>
+            <span className={style.spanMargin}>{value}</span>
         </div>
     );
 }

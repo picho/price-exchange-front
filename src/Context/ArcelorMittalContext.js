@@ -11,12 +11,15 @@ export const ArcelorMittalProvider = (props) => {
 
         const {data} = await new ArcelorMittalContextService().logUser(user);
 
-        if(data) 
+        if(data) {
+            localStorage.setItem('TOKEN', data.BearerToken);  
             setUser(data);
+        }
     }
 
     const userLogout = () => {
         setUser(null);
+        localStorage.setItem('TOKEN', "");  
     }
  
     const value = useMemo(() => {

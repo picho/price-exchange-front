@@ -29,20 +29,16 @@ function DashboardContent (props) {
     const buildPricesContent = () => {
 
         let element = <p>Please, log in for seeing the price</p>;
-        let subTitle = null;
 
         if (userLogged !== null && currencies !== null && props.prices !== null) {
-
-            subTitle =  <p className={style.priceParagraph}>Prices' unit EUR</p>;
             element = props.prices.map((price, index) => {
-                return <CardElement onSelectElement={props.onSelectedPrice} key={index} name={price.name} value={price.value} />;
+                return <CardElement onSelectElement={props.onSelectedPrice} key={index} name={price.name} value={price.value} valueUnit="€" />;
             });
         }
 
         return (
             <div>
                 <h1 className={style.priceTitle}>Prices</h1>
-                {subTitle}
                 {element}
             </div>
         )

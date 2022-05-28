@@ -80,24 +80,22 @@ export class HttpService {
 
         if (this.checkSession()) {
             
-            let apiToken = this.getSession().api_token
+            let apiToken = this.getSession()
             this.headers = {
                 ...this.headers,
-                "Authorisation": `Bearer ${apiToken}`
+                "Authorization": `Bearer ${apiToken}`
             }
         }
     }
 
     getSession() {
-        let session = localStorage.getItem(SESSION_KEY)
-        if (session) 
-            return JSON.parse(session)
+        let session = localStorage.getItem("TOKEN")
         
-        return session
+        return (session) ? session : "";
     }
 
     checkSession() {
-        return localStorage.getItem(SESSION_KEY) !== null
+        return localStorage.getItem("TOKEN") !== null
     }
 
     buildUrl(doesHaveUrlParams, queryParams) {
