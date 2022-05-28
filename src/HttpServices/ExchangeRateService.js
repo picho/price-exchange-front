@@ -1,12 +1,12 @@
 import { BaseService } from "./BaseService"
 
-export class PricesServices extends BaseService {
+export class ExchangeRateService extends BaseService {
     
     constructor() {
-        super('prices', 3001);
+        super('currency', 3050);
     }
 
-    async getPrices() {
+    async getCurrency() {
         return this.getAll();
     }
 }

@@ -1,10 +1,30 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Price from "../Price/Price";
 
 import style from './DashboarContent.module.css';
 
+import {ExchangeRateService} from '../../../HttpServices/ExchangeRateService';
+import {useArcelorMittal} from "../../../Context/ArcelorMittalContext";
+
 function DashboardContent (props) {
 
+    const [currencies, setCurrencies] = useState(null);
+
+    const { userLogged } = useArcelorMittal();
+
+    useEffect(() => {
+      
+        const fetchData = async () => {
+         
+            const currencies = await new ExchangeRateService().getCurrency();
+  
+            setCurrencies(currencies);
+        }
+      
+        if(props.userLogged)
+            fetchData();
+
+      }, [userLogged]);
 
     const buildPricesContent = () => {
 
@@ -12,11 +32,24 @@ function DashboardContent (props) {
           return null;
   
         return props.prices.map((price, index) => {
-            console.log(price);
             return <Price key={index} name={price.name} value={price.value} />;
         })
-  
-      }
+    }
+
+    const buildExchangeRateContent = () => {
+
+        let element = <p>Please, log in for seeing the currency and apply the rate</p>;
+
+        if (userLogged !== null && currencies !== null)
+            element = currencies.map((currency, index) =>  <div key={index}>{currency.name}</div> );
+
+        return(
+            <div>
+                <h2>Exchange Rate</h2>
+                {element}
+            </div>
+        );
+    }
 
     return (
         <section className={style.container}>
@@ -26,18 +59,10 @@ function DashboardContent (props) {
                 </div>
             </div>
             <div className={`${style.rightHalf} ${style.half}`}>
-                <article>
-                <h1>Right Half</h1>
-                <p>If your knees aren't green by the end of the day, you ought to seriously re-examine your life.</p>
-                </article>
+                {buildExchangeRateContent()}
             </div>
         </section>
-        // <div>
-        //     <div></div>
-        //     <div>como</div>
-        // </div>
     )
-
 }
 
 export default DashboardContent;

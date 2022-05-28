@@ -1,22 +1,23 @@
 import axios from 'axios';
 
 const SESSION_KEY = "";
-const ROOT_URL = "http://localhost:3001/";
+const ROOT_URL = "http://localhost:";
 
 export class HttpService {
 
     headers = {}
 
-    constructor(url_prefix = "") {
-        this.url_prefix = url_prefix
+    constructor(url_prefix = "", port) {
+        this.url_prefix = url_prefix;
+        this.port = port;
         this.getHeaders()
     }
 
     async get(queryParams) {
 
         try {
-
-            const { data } = await axios.get(ROOT_URL + this.url_prefix + this.mapQueryParams(queryParams), {
+            
+            const { data } = await axios.get(this.buildUrl(true,queryParams), {
                 headers: this.headers
             });
 
@@ -32,7 +33,7 @@ export class HttpService {
         
         try {
             
-            const response = await axios.post(ROOT_URL + this.url_prefix, params, this.headers);
+            const response = await axios.post(this.buildUrl(false, null), params, this.headers);
 
             return response;
 
@@ -49,7 +50,7 @@ export class HttpService {
 
             console.log(ROOT_URL + this.url_prefix);
             
-            const response = await axios.put(ROOT_URL + this.url_prefix, params, this.headers);
+            const response = await axios.put(this.buildUrl(false, null), params, this.headers);
             
             return response;
 
@@ -63,7 +64,7 @@ export class HttpService {
         
         try {
 
-            const response = await axios.delete(ROOT_URL + this.url_prefix, { data: params });
+            const response = await axios.delete(this.buildUrl(false, null), { data: params });
             
             return response;
 
@@ -107,5 +108,13 @@ export class HttpService {
         return (queryParams)
             ? "?" + Object.keys(queryParams).map(function (key) { return key + '=' + queryParams[key] }).join('&')
             : "";
+    }
+
+    buildUrl(doesHaveUrlParams, queryParams) {
+
+        return (doesHaveUrlParams) 
+            ? ROOT_URL + this.port + "/" + this.url_prefix + this.mapQueryParams(queryParams)
+            : ROOT_URL + this.port + "/" + this.url_prefix;
+
     }
 }
