@@ -1,5 +1,7 @@
 # price-exchange-front
 
+This front-end app is meant to cover all the functionalities that ArcelorMittal's exercise asked. Its focus is to provied a user IU to achive the functionality of take a price values and apply it a exchange rate to get a new value.
+
 ## Installation
 
 Use the following steps to make work this app.
