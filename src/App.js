@@ -1,4 +1,4 @@
-import Dashboard from './components/Dashboard/Dashboard';
+import Dashboard from './Components/Dashboard/Dashboard';
 import { ArcelorMittalProvider } from "./Context/ArcelorMittalContext";
 
 function App() {

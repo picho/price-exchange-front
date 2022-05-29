@@ -4,34 +4,38 @@ import CardElement from "../CardElement/CardElement";
 import style from './DashboarContent.module.css';
 
 import {CurrencyService} from '../../../HttpServices/CurrencyService';
+import { PricesServices } from '../../../HttpServices/PricesServices';
 import {useArcelorMittal} from "../../../Context/ArcelorMittalContext";
 
 function DashboardContent (props) {
 
     const [currencies, setCurrencies] = useState(null);
+    const [prices, setprices] = useState(null);
 
     const { userLogged } = useArcelorMittal();
 
     useEffect(() => {
       
         const fetchData = async () => {
-         
-            const currencies = await new CurrencyService().getCurrency("");
-  
-            setCurrencies(currencies);
+            
+            const currenciesFound = await new CurrencyService().getCurrency("");
+            const pricesFound = await new PricesServices().getPrices();
+
+            setCurrencies(currenciesFound);
+            setprices(pricesFound);
         }
-      
+    
         if(userLogged)
             fetchData();
 
-      }, [userLogged]);
+    }, [userLogged]);
 
     const buildPricesContent = () => {
 
         let element = <p>Please, log in for seeing the price</p>;
 
         if (userLogged !== null && currencies !== null && props.prices !== null) {
-            element = props.prices.map((price, index) => {
+            element = prices.map((price, index) => {
                 return <CardElement onSelectElement={props.onSelectedPrice} key={index} name={price.name} value={price.value} valueUnit="€" />;
             });
         }

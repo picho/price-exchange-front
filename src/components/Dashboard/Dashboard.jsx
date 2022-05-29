@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import WelcomeMessage from './WelcomeMessage/WelcomeMessage';
 import DashboardContent from './DashboarContent/DashboarContent';
@@ -10,8 +10,6 @@ import Operation from './Operation/Operation';
 
 import {useArcelorMittal} from "../../Context/ArcelorMittalContext";
 
-import { PricesServices } from '../../HttpServices/PricesServices';
-
 import logo from  '../../Arcelormittal-logo.png';
 import style from'./Dashboard.module.css';
 
@@ -20,22 +18,9 @@ function Dashboard() {
     const { userLogged, userLogin , userLogout} = useArcelorMittal();
     
     const [isLoginModalClose, setIsLoginModalClose] = useState(true);
-    const [prices, setprices] = useState(null);
+    
     const [selectedPrice, setSelectedPrice] = useState(null);
     const [selectedRate, setSelectedRate] = useState(null);
-
-    useEffect(() => {
-      
-      const fetchData = async () => {
-       
-        const prices = await new PricesServices().getPrices();
-
-        setprices(prices);
-      }
-    
-      fetchData();
-       
-    }, []);
 
     const openModal = () => {
         setIsLoginModalClose(false);
@@ -53,7 +38,7 @@ function Dashboard() {
             <WelcomeMessage isUserLogged={userLogged} />
             </div>
           <div>
-            <DashboardContent prices={prices} onSelectedPrice={onSelectedPrice} onSelectedRate={onSelectedRate}/>
+            <DashboardContent onSelectedPrice={onSelectedPrice} onSelectedRate={onSelectedRate}/>
           </div>
         </div>
       );
@@ -81,8 +66,11 @@ function Dashboard() {
     }
 
     const userLoginHandler = async (user) => {
-      await userLogin(user);
-      closeModal();
+      
+      const userLogged = await userLogin(user);
+      
+      if(userLogged !== null)
+        closeModal();
     }
 
     return (

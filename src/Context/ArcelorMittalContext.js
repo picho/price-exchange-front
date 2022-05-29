@@ -6,29 +6,41 @@ const ArcelorMittalContext = React.createContext();
 export const ArcelorMittalProvider = (props) => {
    
     const [userLogged, setUser] = useState(null);
+    const [isUserAuth, setIsUserAuth] = useState(null);
     
     const userLogin = async (user) => {
 
-        const {data} = await new ArcelorMittalContextService().logUser(user);
+        try{
+            const {data} = await new ArcelorMittalContextService().logUser(user);
 
-        if(data) {
-            localStorage.setItem('TOKEN', data.BearerToken);  
-            setUser(data);
+            if(data) {
+                localStorage.setItem('TOKEN', data.BearerToken);  
+                setUser(data);
+                setIsUserAuth(true);
+
+                return data;
+            }
+        }
+        catch(err){
+            setIsUserAuth(false);
+            return null;
         }
     }
 
     const userLogout = () => {
         setUser(null);
         localStorage.setItem('TOKEN', "");  
+        setIsUserAuth(null);
     }
  
     const value = useMemo(() => {
         return ({
             userLogged,
+            isUserAuth,
             userLogin,
             userLogout
         });
-    }, [userLogged]);
+    }, [userLogged, isUserAuth]);
 
     return <ArcelorMittalContext.Provider value={value} {...props} />
 }

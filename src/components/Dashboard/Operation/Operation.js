@@ -7,12 +7,10 @@ import { ExchangeRateService } from '../../../HttpServices/ExchangeRateService';
 
 function Operation(props) {
 
-    console.log("holaaa");
-    console.log(props.selectedPrice);
-
     const [exchangeRateResult, setResult] = useState(null);
     const [selectedPrice, setSelectedPrice] = useState(null);
     const [selectedRate, setSelectedRate] = useState(null);
+    const [isLoadingActive, setIsLoadingActive] = useState(false);
 
     useEffect(() => {
         setSelectedPrice(props.selectedPrice);
@@ -22,11 +20,15 @@ function Operation(props) {
     
     const callApiExchange =  async () => {
 
+        setIsLoadingActive(true);
+
         const queryParams = `${selectedPrice}&${selectedRate}`;
 
         const result = await new ExchangeRateService().getRateResult(queryParams);
 
         setResult({rate: result.info.rate, result: result.result});
+
+        setIsLoadingActive(false);
     }
 
     const cleanValues = () => {
@@ -81,6 +83,10 @@ function Operation(props) {
         );
     }
 
+    const showLoading = () => {
+        return (isLoadingActive) ? <h2>Loading Rate...</h2> : null;
+    }
+
     return (
         <div className={style.operationContent}>
             <h1>Operation Panel</h1>
@@ -94,6 +100,7 @@ function Operation(props) {
             </div>
             {showButton()}
             <div>
+                <div>{showLoading()}</div>
                 <div>{showExchangeResult()}</div>
             </div>
         </div>
