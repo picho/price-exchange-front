@@ -1,16 +1,16 @@
 # price-exchange-front
 
-This front-end app is meant to cover all the functionalities that ArcelorMittal's exercise asked. Its focus is to provied a user IU to achive the functionality of take a price values and apply it a exchange rate to get a new value.
+This back-end app is meant to cover all the required functionalities described in ArcelorMittal's case study. Its focus is to provide a user Ux to achieve the functionality towards taking a price value and apply an exchange rate to get a new value.
 
 ## Installation
 
-Use the following steps to make work this app.
+Use the following steps to make this app work.
 
-Clone this repository or download it.
-Put the app in a folder.
-Using a terminal o cmd, go to the folder.
-Being in the folder, write npm install and press enter, wait until all the packages are installed
-Once the installation is finished, write npm start and press enter.
+1. Clone this repository or download it.
+2. Put the app in a folder.
+3. Using a terminal o cmd, go to the folder.
+4. Once in the folder, write ```npm install``` and press enter, wait until all the packages are installed.
+5. Once the installation is finished, write ```npm start``` and press enter.
 
 When the app is running, if everything is ok, you should see the following message.
 
